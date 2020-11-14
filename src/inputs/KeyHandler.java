@@ -10,7 +10,7 @@ import java.awt.event.KeyEvent;
 public class KeyHandler extends KeyAdapter{
     
     
-    public 
+    
     
     @Override
     public void keyPressed(KeyEvent e){
