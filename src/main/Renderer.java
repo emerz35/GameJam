@@ -35,7 +35,7 @@ public class Renderer implements Runnable{
                 frames++;
             }
             if(System.currentTimeMillis() - fcounter >=1000){
-                System.out.println(frames);
+                //System.out.println(frames);
                 frames = 0;
                 fcounter = System.currentTimeMillis();
             }
