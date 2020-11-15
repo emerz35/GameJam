@@ -1,13 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package main;
 
+import gameobjects.Player;
+import gameobjects.factories.PlayerFactory;
+import inputs.KeyHandler;
+import inputs.MouseHandler;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
+import stages.Room;
+import stages.RoomHandler;
+import stages.SavedRoom;
+import stages.generators.BasicRoomGenerator;
+import stages.generators.RoomGenerator;
 
 /**
  *
@@ -16,9 +20,24 @@ import java.awt.image.BufferStrategy;
 public class Renderer implements Runnable{
     private final Main main;
     private boolean running = true;
+    private final RoomHandler roomHandler;
+    private final KeyHandler keyHandler;
+    private final MouseHandler mouseHandler;
+    private final RoomGenerator gen = new BasicRoomGenerator();
+    private final PlayerFactory pf = new PlayerFactory();
     
     public Renderer(Main m){
         main = m;
+        Player player = pf.createPlayer();
+        SavedRoom sRoom = SavedRoom.getSavedRoom("room1");
+        if(sRoom == null)sRoom = gen.createRoom(player,1);
+        Room firstRoom = sRoom.buildRoom(player);
+        roomHandler = new RoomHandler(firstRoom,player);
+        keyHandler = new KeyHandler(roomHandler);
+        mouseHandler = new MouseHandler(player);
+        m.addKeyListener(keyHandler);
+        m.addMouseListener(mouseHandler);
+        m.addMouseMotionListener(mouseHandler);
     }
 
     @Override
@@ -50,12 +69,15 @@ public class Renderer implements Runnable{
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, Main.FWIDTH, Main.FHEIGHT);
         
+        roomHandler.render(g);
         g.dispose();
         bs.show();
     }
     
     public void tick(){
-    
+        roomHandler.tick();
+        keyHandler.tick();
+        mouseHandler.tick();
     }
     
     public void quit(){

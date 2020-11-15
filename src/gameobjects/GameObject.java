@@ -1,27 +1,48 @@
 package gameobjects;
 
+import animations.Animation;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 /**
  *
  * @author Charlie
  */
 public abstract class GameObject extends Collision{
-    private int velx,vely;
-    private boolean isAlive = true;
     
-    public GameObject(int x, int y, int w, int h){
-        super(x,y,w,h);
+    private boolean exists = true; 
+    public boolean canWalk;
+    
+    protected Animation currentAnimation;
+    
+    public GameObject(int x, int y, int w, int h, int cp,boolean canWalk, Animation a){
+        super(x,y,w,h,cp);
+        currentAnimation = a;
+        this.canWalk = canWalk;
+    }
+    public GameObject(int x, int y, int w, int h, int cp, boolean canWalk){
+        super(x,y,w,h,cp);
+        currentAnimation = new Animation(new BufferedImage[]{new BufferedImage(w,h,BufferedImage.TYPE_INT_ARGB)}, new int[]{0},false);
+        this.canWalk = canWalk;
     }
     
     public void remove(){
-        isAlive = false;
+        exists = false;
     }
     
-    public boolean isAlive(){
-        return isAlive;
+    public boolean doesExist(){
+        return exists;
     }
     
     public abstract void tick();
-    public abstract void render(Graphics2D g);
+    public void render(Graphics2D g){
+        currentAnimation.render(g, x, y);
+    }
+    
+    public void setAnimation(Animation a){
+        if(!currentAnimation.equals(a)){
+            currentAnimation.reset();
+            currentAnimation = a;
+        }
+    }
 }

@@ -19,6 +19,7 @@ public class Window {
         frame.setVisible(true);
         
         frame.add(main);
+        frame.requestFocus();
         main.start();
     }
 }
