@@ -24,7 +24,7 @@ public class Main extends Canvas{
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new Window("Game",Main.FWIDTH, Main.FHEIGHT,new Main());
+        new Window("No Turning Back",Main.FWIDTH, Main.FHEIGHT,new Main());
     }
     
 }

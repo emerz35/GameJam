@@ -66,7 +66,7 @@ public class SavedRoom implements Serializable{
     
     public void save(){
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(
-            new File(System.getProperty("user.home")+"/game/rooms/"+name+".room")))){
+            new File(System.getProperty("user.home")+"/noturningback/rooms/"+name+".room")))){
                 File newFile = new File(System.getProperty("user.home")+"/game/rooms");
                 newFile.createNewFile();
                 oos.writeObject(this);
@@ -80,7 +80,7 @@ public class SavedRoom implements Serializable{
     
     public static SavedRoom getSavedRoom(String name){
         try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(
-                new File(System.getProperty("user.home")+"/game/rooms/"+name+".room")))){
+                new File(System.getProperty("user.home")+"/noturningback/rooms/"+name+".room")))){
                 
                     return (SavedRoom) ois.readObject();
                 
